@@ -29,9 +29,9 @@ module Hashie
     end
 
     def initialize(properties = {})
-      @inst_defaults = self.class.defaults
-      @inst_requireds = self.class.requireds
-      @inst_properties = self.class.properties
+      @inst_defaults = self.class.defaults.dup
+      @inst_requireds = self.class.requireds.dup
+      @inst_properties = self.class.properties.dup
 
       if (@inst_requireds - properties.keys).any?
         raise ArgumentError, "The properties are not defined"
@@ -43,7 +43,7 @@ module Hashie
     end
 
     def [](key)
-      @inst_properties[key]
+      @inst_properties[key] || raise(NoMethodError)
     end
 
     def []=(key, value)
