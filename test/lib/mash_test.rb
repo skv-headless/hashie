@@ -27,4 +27,8 @@ class MashTest < MiniTest::Test
     @mash.author!.name = "John"
     assert_equal "John", @mash.author.name
   end
+
+  def test_underscore_do_submash
+    assert !@mash.author_.name?
+  end
 end
