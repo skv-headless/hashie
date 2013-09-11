@@ -5,4 +5,5 @@ gemspec
 
 group :test, :development do
   gem "minitest", "~> 5.0.7"
+  gem "coveralls"
 end
