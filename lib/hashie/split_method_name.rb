@@ -1,4 +1,5 @@
 module Hashie
+  #todo rename module
   module SplitMethodName
     def last_char(method)
        method.to_s.chars.last

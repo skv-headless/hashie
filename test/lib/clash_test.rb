@@ -17,15 +17,15 @@ class ClashTest < MiniTest::Test
     assert_equal i_want, @clash.to_hash
   end
 
-    # def test_simple_nested_clash
-    #   @clash.where!.abc('def').ghi(123)
-    #   i_want = {:where => {:abc => 'def', :ghi => 123}}
-    #   assert_equal i_want, @clash.to_hash
-    # end
+  def test_nested_clash
+    @clash.where!.abc('def').ghi(123)._end!.order(:created_at)
+    i_want = {:where => {:abc => 'def', :ghi => 123}, :order => :created_at}
+    assert_equal i_want, @clash.to_hash
+  end
 
-  #def test_nested_clash
-  #  @clash.where!.abc('def').ghi(123)._end!.order(:created_at)
-  #  i_want = {:where => {:abc => 'def', :ghi => 123}, :order => :created_at}
-  #  assert_equal i_want, @clash.to_hash
-  #end
+  def test_nested_clash_jana
+    @clash.first_level!.second_level!._end!._end!.root('root')
+    i_want = {:first_level => {:second_level => {}}, :root => 'root'}
+    assert_equal i_want, @clash.to_hash
+  end
 end
