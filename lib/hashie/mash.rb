@@ -1,29 +1,32 @@
 module Hashie
-  include SplitMethodName
+
   class Mash
+    include SplitMethodName
+
     def initialize
       @hash = {}
     end
 
     def method_missing(method, *args, &block)
-      if method.to_s.chars.last  == "?"
-        method = method.to_s.gsub("?", "").to_sym
-        @hash.has_key? method
-      elsif method.to_s.chars.last  == "="
-        method = method.to_s.gsub("=", "").to_sym
-        @hash[method] = args.first
-      elsif method.to_s.chars.last  == "!"
-        method = method.to_s.gsub("!", "").to_sym
-        @hash[method] = Mash.new
-      elsif method.to_s.chars.last  == "_"
-        method = method.to_s.gsub("_", "") + '!'
-        if self.call(method.to_sym).nil?
-          Mash.new
-        else
-          self.call(method.to_sym)
+      method_name  = pure_method_name(method)
+
+      methods = {
+        '?' => lambda { @hash.has_key? method_name },
+        '=' => lambda { @hash[method_name] = args.first },
+        '!' => lambda { @hash[method_name] = Mash.new },
+        '_' => lambda do
+          if self.call(method_name).nil?
+            Mash.new
+          else
+            self.call(method_name)
+          end
         end
+      }
+
+      if methods.has_key? last_char(method)
+        methods[last_char(method)].call
       else
-        @hash[method]
+        @hash[method_name]
       end
     end
   end

@@ -1,5 +1,7 @@
 module Hashie
   class Clash
+    include SplitMethodName
+
     def initialize
       @hash = {}
     end
@@ -9,7 +11,13 @@ module Hashie
     end
 
     def method_missing(method, *args, &block)
-      @hash[method] = args.first
+      if last_char?(method, '!')
+        method_name = pure_method_name(method)
+        @hash[method_name] = args.first
+      else
+        @hash[method] = args.first
+      end
+
       self
     end
   end
