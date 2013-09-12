@@ -1,4 +1,5 @@
 module Hashie
+  include SplitMethodName
   class Mash
     def initialize
       @hash = {}
