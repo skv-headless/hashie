@@ -12,10 +12,16 @@ class ClashTest < MiniTest::Test
   end
 
   def test_simple_nested_clash
-    @clash.where!.abc('def').ghi(123)
-    i_want = {:where => {:abc => 'def', :ghi => 123}}
+    @clash.where!.abc('def').ghi(123).asd!.qwe("qwe")
+    i_want = {:where => {:abc => 'def', :ghi => 123, :asd => {:qwe => "qwe"}}}
     assert_equal i_want, @clash.to_hash
   end
+
+    # def test_simple_nested_clash
+    #   @clash.where!.abc('def').ghi(123)
+    #   i_want = {:where => {:abc => 'def', :ghi => 123}}
+    #   assert_equal i_want, @clash.to_hash
+    # end
 
   #def test_nested_clash
   #  @clash.where!.abc('def').ghi(123)._end!.order(:created_at)

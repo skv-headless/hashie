@@ -4,6 +4,7 @@ module Hashie
 
     def initialize
       @hash = {}
+      @current_level = nil
     end
 
     def to_hash
@@ -13,12 +14,17 @@ module Hashie
     def method_missing(method, *args, &block)
       if last_char?(method, '!')
         method_name = pure_method_name(method)
-        @hash[method_name] = args.first
+        current_node[method_name] = {}
+        @current_level = current_node[method_name]
       else
-        @hash[method] = args.first
+        current_node[method] = args.first
       end
 
       self
+    end
+
+    def current_node
+      @current_level || @hash
     end
   end
 end
