@@ -1,4 +1,6 @@
 # Hashie
+[![Coverage Status](https://coveralls.io/repos/skv-headless/hashie/badge.png)](https://coveralls.io/r/skv-headless/hashie)
+[![Build Status](https://travis-ci.org/skv-headless/hashie.png?branch=master)](https://travis-ci.org/skv-headless/hashie)
 
 TODO: Write a gem description
 
