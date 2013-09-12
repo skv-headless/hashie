@@ -26,18 +26,10 @@ module Hashie
     end
 
     def initialize(properties = {})
-      self.class.translations.each_pair do |key, value|
-        if properties.has_key? key
-          properties[value] = properties[key]
-          properties.delete key
-        end
-      end
+      @inst_properties = {}
+      translate_keys!(properties)
 
-      self.class.transform_value.each_pair do |key, value|
-        properties[key] = value.call(properties[key])
-      end
-
-      @inst_properties = properties
+      properties.each_pair { |key, value| self[key] = value }
     end
 
     def []=(key, value)
@@ -50,6 +42,16 @@ module Hashie
 
     def [](key)
       @inst_properties[key]
+    end
+
+    private
+    def translate_keys!(properties)
+      self.class.translations.each_pair do |key, value|
+        if properties.has_key? key
+          properties[value] = properties[key]
+          properties.delete key
+        end
+      end
     end
   end
 end
